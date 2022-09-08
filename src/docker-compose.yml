@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  memoryoverflow:
+    image: ${DOCKER_REGISTRY-}memoryoverflow
+    build:
+      context: .
+      dockerfile: MemoryOverflow/Dockerfile

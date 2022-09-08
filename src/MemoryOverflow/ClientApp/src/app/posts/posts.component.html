@@ -1,0 +1,4 @@
+
+<div *ngFor="let p of posts$ | async">
+  <a [routerLink]="['/posts', 123]">{{p.title}}</a>
+</div>
