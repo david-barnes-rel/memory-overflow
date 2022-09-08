@@ -1,1 +1,5 @@
-<p>post-preview works!</p>
+<h6>
+  <a [routerLink]="['/posts', post!.id]">{{post!.title}}</a>
+</h6>
+
+<p>{{post!.text}}</p>

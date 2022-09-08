@@ -11,6 +11,7 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { PostsComponent } from './posts/posts.component';
 import { PostPreviewComponent } from './post-preview/post-preview.component';
+import { PostDetailComponent } from './post-detail/post-detail.component';
 
 
 @NgModule({
@@ -20,7 +21,9 @@ import { PostPreviewComponent } from './post-preview/post-preview.component';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    PostsComponent
+    PostsComponent,
+    PostPreviewComponent,
+    PostDetailComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -31,7 +34,7 @@ import { PostPreviewComponent } from './post-preview/post-preview.component';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'posts', component: PostsComponent },
-      { path: 'posts/:id', component: PostPreviewComponent }
+      { path: 'posts/:id', component: PostDetailComponent }
     ])
   ],
   providers: [],
