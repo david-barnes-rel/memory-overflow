@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
+import { loadSlimPosts } from '../app-state/actions';
+import { getPosts } from '../app-state/selectors';
 
 @Component({
   selector: 'posts',
@@ -8,8 +11,10 @@ import { of } from 'rxjs';
 })
 export class PostsComponent implements OnInit {
 
-  posts$ = of([{ id: '123', title: "hello", description: 'hello world' }, { id:'321', title: "world", description: 'hello other world' }]);
-  constructor() { }
+  posts$ = this._store.select(getPosts);
+  constructor(private _store: Store) {
+
+  }
 
   ngOnInit(): void {
   }

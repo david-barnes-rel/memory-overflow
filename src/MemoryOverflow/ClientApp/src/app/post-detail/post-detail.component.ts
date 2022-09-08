@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { getActivePost } from '../app-state/selectors';
 import { PostDetail } from '../post-detail.model';
 
 @Component({
@@ -8,10 +10,8 @@ import { PostDetail } from '../post-detail.model';
 })
 export class PostDetailComponent implements OnInit {
 
-  @Input()
-  post: PostDetail | null = null;
-
-  constructor() { }
+  post$ = this.store.select(getActivePost)
+  constructor(private store: Store) { }
 
   ngOnInit(): void {
   }
