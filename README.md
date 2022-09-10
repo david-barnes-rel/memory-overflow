@@ -1,6 +1,6 @@
-# memory-overflow
+# Memory Overflow
 
-The goal of this repository is to test out different patterns found in https://www.amazon.com/Fundamentals-Software-Architecture-Comprehensive-Characteristics/dp/1492043451. The goal is to write a very primative version of stackoverflow and use the different patterns as an exploration excercise.
+The goal of this repository is to test out different patterns found in [this](https://www.amazon.com/Fundamentals-Software-Architecture-Comprehensive-Characteristics/dp/1492043451) book. The goal is to write a very primative version of stackoverflow and use the different patterns as an exploration excercise. the main branch will be where I host any changes I need to make to the UI and will do a merge to any child branch. Each branch will be name `{chapter number}-{name of the pattern}` so it's easily referenced.
 
 Scope of the UI:
 - users can create posts/questions
