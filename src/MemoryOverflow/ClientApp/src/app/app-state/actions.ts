@@ -20,6 +20,10 @@ export const loadPost = createAction(
   props<{ id: string }>()
 );
 
+export const clearActivePost = createAction(
+  '[Post API] clear active post',
+)
+
 export const loadPostSuccess = createAction(
   '[Post API] load post success',
   props<{ post: PostDetail }>()

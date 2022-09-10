@@ -30,6 +30,10 @@ export const collectionResolver = createReducer(
   on(actions.loadPostSuccess, (state, action) => ({
     ...state,
     activePost: action.post
+  })),
+  on(actions.clearActivePost, (state, action) => ({
+    ...state,
+    activePost: null
   }))
 );
 

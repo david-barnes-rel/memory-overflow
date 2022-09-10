@@ -1,3 +1,63 @@
-<h6>{{(post$ | async)!.title}}</h6>
+<ng-container *ngrxLet="post$ as post">
+  <button mat-raised-button [routerLink]="['/posts/', (post$ | async)!.id, 'manage']">
+    Edit Post
+  </button>
 
-<span>{{(post$ | async)!.text}}</span>
+  <div>
+
+    <h2>{{post!.title}}</h2>
+    <div class="question">
+      <div class="question-body">
+        <div class="question-votes">
+          <div> <button mat-button (click)="upvote(post!.id)">Up vote </button></div>
+          <div>32</div>
+          <div> <button mat-button (click)="downvote(post!.id)">Down vote</button></div>
+        </div>
+        <div class="question-area">
+          {{post!.text}}
+        </div>
+      </div>
+      ---
+
+      <div *ngFor="let c of post!.comments">
+        {{c.message}}
+        {{c.user.name}}
+      </div>
+
+
+      <div>Add a comment</div>
+    </div>
+  </div>
+
+  -- {{ answerCount$ | async}} Answers---
+  <div *ngFor="let a of post!.answers">
+
+    <div class="question">
+      <div class="question-body">
+        <div class="question-votes">
+          <div>Up vote</div>
+          <div>32</div>
+          <div>Down vote</div>
+        </div>
+        <div class="question-area">
+          {{a.text}}
+        </div>
+
+
+      </div>
+      ---
+
+      <div *ngFor="let c of post!.comments">
+        {{c.message}}
+        {{c.user.name}}
+      </div>
+
+
+      <div>Add a comment</div>
+    </div>
+  </div>
+
+
+
+
+</ng-container>

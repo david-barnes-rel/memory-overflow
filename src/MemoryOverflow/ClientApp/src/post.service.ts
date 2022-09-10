@@ -32,7 +32,21 @@ export class PostService {
         id: '123',
         title: 'first post',
         text: 'this is my first question',
-        answers: []
+        answers: [
+          {
+            text: 'some answer',
+            id: 'a-3215',
+            comments: []
+          }
+        ],
+        comments: [{
+          id: 'c-3123',
+          message: 'hello world',
+          user: {
+            id: 'u-234',
+            name:'test_user'
+          }
+        }]
       })
   }
 

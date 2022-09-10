@@ -1,0 +1,10 @@
+.question-body {
+  display: flex;
+  margin-bottom: 50px;
+}
+.question-votes{
+    width:100px;
+}
+.question-area{
+    width:100%;
+}

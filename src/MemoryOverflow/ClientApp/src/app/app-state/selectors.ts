@@ -16,4 +16,9 @@ export const getActivePost = createSelector(
   (state) => state.activePost
 );
 
+export const getActivePostAnswerCount = createSelector(
+  getState,
+  (state) => state.activePost?.answers.length
+);
+
 

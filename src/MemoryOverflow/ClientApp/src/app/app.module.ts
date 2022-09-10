@@ -22,6 +22,9 @@ import { EffectsModule } from '@ngrx/effects';
 import { AppEffects } from './app-state/effects'
 import { LoadAllPostsGuard } from '../load-all-posts.guard';
 import { LoadPostGuard } from '../load-post.guard';
+import { PostManageComponent } from './post-manage/post-manage.component';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { MaterialExampleModule } from './material.module';
 
 @NgModule({
   declarations: [
@@ -32,19 +35,25 @@ import { LoadPostGuard } from '../load-post.guard';
     FetchDataComponent,
     PostsComponent,
     PostPreviewComponent,
-    PostDetailComponent
+    PostDetailComponent,
+    PostManageComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    MaterialExampleModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'posts', component: PostsComponent, canActivate: [LoadAllPostsGuard] },
-      { path: 'posts/:id', component: PostDetailComponent, canActivate: [LoadPostGuard] }
+      { path: 'posts/create', component: PostManageComponent, canActivate: [LoadPostGuard] },
+      { path: 'posts/:id', component: PostDetailComponent, canActivate: [LoadPostGuard] },
+      { path: 'posts/:id/manage', component: PostManageComponent, canActivate: [LoadPostGuard] },
+
     ]),
+    ReactiveComponentModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot(),
     StoreModule.forFeature(STATE_KEY, reducers),
