@@ -1,1 +1,16 @@
-<p>post-manage works!</p>
+<form [formGroup]="post" (ngSubmit)="onSubmit()">
+    <p>
+        <mat-form-field appearance="standard">
+            <mat-label for="title">Input</mat-label>
+            <input id="title" matInput type="text" formControlName="title">
+        </mat-form-field>
+    </p>
+    <p>
+        <mat-form-field appearance="standard">
+            <mat-label for="text">Question</mat-label>
+            <textarea id="text" matInput type="text" formControlName="text">
+        </textarea>
+        </mat-form-field>
+    </p>
+    <button mat-raised-button>Submit</button>
+</form>

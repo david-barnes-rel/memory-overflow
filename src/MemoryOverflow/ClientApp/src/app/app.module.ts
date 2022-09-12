@@ -25,6 +25,8 @@ import { LoadPostGuard } from '../load-post.guard';
 import { PostManageComponent } from './post-manage/post-manage.component';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MaterialExampleModule } from './material.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -53,12 +55,14 @@ import { MaterialExampleModule } from './material.module';
       { path: 'posts/:id/manage', component: PostManageComponent, canActivate: [LoadPostGuard] },
 
     ]),
-    ReactiveComponentModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot(),
     StoreModule.forFeature(STATE_KEY, reducers),
     EffectsModule.forFeature([AppEffects]),
-    !environment.production ? StoreDevtoolsModule.instrument() : []
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    ReactiveComponentModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -34,6 +34,13 @@ export const collectionResolver = createReducer(
   on(actions.clearActivePost, (state, action) => ({
     ...state,
     activePost: null
+  })),
+  on(actions.upsertAnswerForPostSuccess, (state, action) => ({
+    ...state,
+    activePost: {
+      ...state.activePost!,
+      answers: [...state.activePost?.answers || [], action.answer]
+    }
   }))
 );
 

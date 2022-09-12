@@ -6,11 +6,10 @@ Scope of the UI:
 - users can create posts/questions
     - users can upvote/downvote
     - create comments
+
 - users can create answers
     - upvote/downvote
     - create comments
-
-
 
 # Datamodel:
 
@@ -53,6 +52,7 @@ Scope of the UI:
 | Text | nvarchar(max) | Comment text |
 | Created date | Datetime(2) default(now) | Time the post was created in UTC |
 | UserId | Guid FK user | Id of the user that created this comment |
+
 
 
 ## User

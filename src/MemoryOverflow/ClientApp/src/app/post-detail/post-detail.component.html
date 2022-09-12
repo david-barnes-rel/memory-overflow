@@ -1,62 +1,78 @@
 <ng-container *ngrxLet="post$ as post">
-  <button mat-raised-button [routerLink]="['/posts/', (post$ | async)!.id, 'manage']">
+  <button mat-raised-button color="primary" [routerLink]="['/posts/', (post$ | async)!.id, 'manage']">
     Edit Post
   </button>
 
-  <div>
-
-    <h2>{{post!.title}}</h2>
+  <mat-card>
     <div class="question">
+
+      <mat-card-title>{{post!.title}}</mat-card-title>
+
       <div class="question-body">
         <div class="question-votes">
-          <div> <button mat-button (click)="upvote(post!.id)">Up vote </button></div>
+          <mat-icon (click)="upvote(post!.id)" fontIcon="arrow_upward"> arrow_upward</mat-icon>
           <div>32</div>
-          <div> <button mat-button (click)="downvote(post!.id)">Down vote</button></div>
+          <mat-icon (click)="downvote(post!.id)">arrow_downward</mat-icon>
         </div>
         <div class="question-area">
           {{post!.text}}
         </div>
       </div>
-      ---
+      Comments
+      <mat-list>
+        <mat-list-item role="listitem" *ngFor="let c of post!.comments">
+          {{c.message}}
+          {{c.user.name}}
+          <mat-divider></mat-divider>
+        </mat-list-item>
+      </mat-list>
 
-      <div *ngFor="let c of post!.comments">
-        {{c.message}}
-        {{c.user.name}}
-      </div>
 
-
-      <div>Add a comment</div>
+      <button mat-raised-button color="accent">Add a comment</button>
     </div>
-  </div>
+  </mat-card>
 
-  -- {{ answerCount$ | async}} Answers---
-  <div *ngFor="let a of post!.answers">
 
-    <div class="question">
-      <div class="question-body">
-        <div class="question-votes">
-          <div>Up vote</div>
-          <div>32</div>
-          <div>Down vote</div>
+  <h5>-- {{ answerCount$ | async}} Answers---</h5>
+  <section *ngFor="let a of post!.answers">
+    <mat-card>
+      <div class="question">
+        <div class="question-body">
+          <div class="question-votes">
+            <mat-icon (click)="upvote(a!.id)" fontIcon="arrow_upward"> arrow_upward</mat-icon>
+            <div>32</div>
+            <mat-icon (click)="downvote(a!.id)">arrow_downward</mat-icon>
+          </div>
+          <div class="question-area">
+            {{a.text}}
+          </div>
         </div>
-        <div class="question-area">
-          {{a.text}}
-        </div>
+        Comments
+        <mat-list>
+          <mat-list-item role="listitem" *ngFor="let c of a!.comments">
+            {{c.message}}
+            {{c.user.name}}
+            <mat-divider></mat-divider>
+          </mat-list-item>
+        </mat-list>
 
 
+        <button mat-raised-button color="accent">Add a comment</button>
       </div>
-      ---
+    </mat-card>
+  </section>
 
-      <div *ngFor="let c of post!.comments">
-        {{c.message}}
-        {{c.user.name}}
-      </div>
-
-
-      <div>Add a comment</div>
-    </div>
-  </div>
-
+  <section>
+    <h6>Your Answer</h6>
+    <form [formGroup]="answerForm" (ngSubmit)="createAnswer(post!.id)">
+    <mat-form-field appearance="standard">
+      <textarea id="answerText" matInput type="text" formControlName="answer"></textarea>
+    </mat-form-field>
+    <p>
+    <button mat-raised-button color="primary" [disabled]="!answerForm.valid">Create Answer</button>
+  </p>
+  </form>
+  </section>
 
 
 
