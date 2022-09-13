@@ -12,6 +12,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { PostsComponent } from './posts/posts.component';
 import { PostPreviewComponent } from './post-preview/post-preview.component';
 import { PostDetailComponent } from './post-detail/post-detail.component';
+import { CommentListComponent } from './comment-list/comment-list.component';
 import { environment } from '../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
@@ -38,7 +39,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     PostsComponent,
     PostPreviewComponent,
     PostDetailComponent,
-    PostManageComponent
+    PostManageComponent,
+    CommentListComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

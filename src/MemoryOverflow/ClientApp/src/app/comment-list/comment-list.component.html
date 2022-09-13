@@ -1,0 +1,15 @@
+<mat-list>
+  <mat-list-item role="listitem" *ngFor="let c of comments">
+    {{c.message}}
+    {{c?.user?.name}}
+    <mat-divider></mat-divider>
+  </mat-list-item>
+  <mat-list-item *ngIf="showCommentForm">
+    <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+      <textarea matInput formControlName="message"></textarea>
+      
+    </form>
+  </mat-list-item>
+  <button mat-raised-button color="accent" *ngIf="showCommentForm" (click)="onSubmit()" [disabled]="!commentForm.valid">Save</button>
+</mat-list>
+<button mat-raised-button color="accent" (click)="addComment()" *ngIf="!showCommentForm">Add a comment</button>

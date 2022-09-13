@@ -19,16 +19,7 @@
         </div>
       </div>
       Comments
-      <mat-list>
-        <mat-list-item role="listitem" *ngFor="let c of post!.comments">
-          {{c.message}}
-          {{c.user.name}}
-          <mat-divider></mat-divider>
-        </mat-list-item>
-      </mat-list>
-
-
-      <button mat-raised-button color="accent">Add a comment</button>
+      <comment-list [comments]="post!.comments" (create)="createCommentForPost(post!.id, $event)"></comment-list>
     </div>
   </mat-card>
 
@@ -48,16 +39,9 @@
           </div>
         </div>
         Comments
-        <mat-list>
-          <mat-list-item role="listitem" *ngFor="let c of a!.comments">
-            {{c.message}}
-            {{c.user.name}}
-            <mat-divider></mat-divider>
-          </mat-list-item>
-        </mat-list>
+  <comment-list [comments]="a.comments" (create)="createCommentForAnswer(a.id, $event)"></comment-list>
 
-
-        <button mat-raised-button color="accent">Add a comment</button>
+        
       </div>
     </mat-card>
   </section>
@@ -65,13 +49,13 @@
   <section>
     <h6>Your Answer</h6>
     <form [formGroup]="answerForm" (ngSubmit)="createAnswer(post!.id)">
-    <mat-form-field appearance="standard">
-      <textarea id="answerText" matInput type="text" formControlName="answer"></textarea>
-    </mat-form-field>
-    <p>
-    <button mat-raised-button color="primary" [disabled]="!answerForm.valid">Create Answer</button>
-  </p>
-  </form>
+      <mat-form-field appearance="standard">
+        <textarea id="answerText" matInput type="text" formControlName="answer"></textarea>
+      </mat-form-field>
+      <p>
+        <button mat-raised-button color="primary" [disabled]="!answerForm.valid">Create Answer</button>
+      </p>
+    </form>
   </section>
 
 

@@ -3,7 +3,7 @@ export interface User {
   name: string;
 }
 export interface Comment {
-  id: string;
+  id?: string;
   message: string;
-  user: User;
+  user?: User;
 }

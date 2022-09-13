@@ -1,46 +1,73 @@
-import { createReducer, on } from "@ngrx/store";
-import { PostDetail } from "../post-detail.model";
-import { PostSlim } from "../post-slim.model";
+import { createReducer, on } from '@ngrx/store';
+import { PostDetail } from '../post-detail.model';
+import { PostSlim } from '../post-slim.model';
 import * as actions from './actions';
 
 export interface AppState {
-  posts: ReadonlyArray<PostSlim>,
-  activePost: PostDetail | null
+  posts: ReadonlyArray<PostSlim>;
+  activePost: PostDetail | null;
 }
 export const initialState: AppState = {
   posts: [],
-  activePost: null
+  activePost: null,
 };
-
 
 export const collectionResolver = createReducer(
   initialState,
   on(actions.loadSlimPostsSuccess, (state, action) => ({
     ...state,
-    posts: action.posts
+    posts: action.posts,
   })),
   on(actions.loadPostFailure, (state, _) => ({
     ...state,
-    posts: []
+    posts: [],
   })),
   on(actions.loadPost, (state, _) => ({
     ...state,
-    activePost: null
+    activePost: null,
   })),
   on(actions.loadPostSuccess, (state, action) => ({
     ...state,
-    activePost: action.post
+    activePost: action.post,
   })),
   on(actions.clearActivePost, (state, action) => ({
     ...state,
-    activePost: null
+    activePost: null,
   })),
   on(actions.upsertAnswerForPostSuccess, (state, action) => ({
     ...state,
     activePost: {
       ...state.activePost!,
-      answers: [...state.activePost?.answers || [], action.answer]
-    }
-  }))
+      answers: [...(state.activePost?.answers || []), action.answer],
+    },
+  })),
+  on(actions.createCommentForPostSuccess, (state, action) => ({
+    ...state,
+    activePost: {
+      ...state.activePost!,
+      comments: [...(state.activePost?.comments || []), action.comment],
+    },
+  })),
+  on(actions.createCommentForAnswerSuccess, (state, action) => {
+    const currentAnswers = [...(state.activePost?.answers || [])];
+    return {
+      ...state,
+      activePost: {
+        ...state.activePost!,
+        answers: currentAnswers.map((a) => {
+          if (a.id == action.answerId) {
+            return {
+              ...a,
+              comments: [
+                ...(a?.comments || []),
+                action.comment,
+              ]
+            }
+          } else {
+            return a;
+          }
+        }),
+      },
+    };
+  })
 );
-
