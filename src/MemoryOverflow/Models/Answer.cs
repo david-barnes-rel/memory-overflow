@@ -2,12 +2,11 @@
 
 namespace MemoryOverflow.Models
 {
-    public class SlimPost
+    public class Answer
     {
         public Guid? Id { get; set; }
         [Required]
-        public string Question { get; set; }
-        [Required]
-        public string Title { get; set; }
+        public string? Message { get; set; }
+        public IReadOnlyList<Comment> Comments { get; set; } = new List<Comment>();
     }
 }

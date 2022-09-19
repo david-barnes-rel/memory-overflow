@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MemoryOverflow.Data
 {
+
     public class ApplicationDbContext : DbContext
     {
         //Constructor with DbContextOptions and the context class itself
@@ -12,5 +13,19 @@ namespace MemoryOverflow.Data
         //Create the DataSet for the Employee         
         public DbSet<Post> Posts{ get; set; }
         public DbSet<Answer> Answers { get; set; }
+        public DbSet<PostComment> PostComments { get; set; }
+        public DbSet<AnswerComment> AnswerComments { get; set; }
+        public DbSet<User> Users{ get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // I'm being extrodinarily lazy please never do something like this in production
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+            base.OnModelCreating(modelBuilder);
+        }
     }
+    
 }

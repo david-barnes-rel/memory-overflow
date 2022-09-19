@@ -1,10 +1,22 @@
+using AutoMapper;
+using MemoryOverflow.Core;
+using MemoryOverflow.Data;
+using MemoryOverflow.Models;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
 
+builder.Configuration.AddJsonFile("appsettings.json");
+var services = builder.Services;
+services.AddAutoMapper(typeof(Program));
+
+Register.SetupLibrary(services, builder.Configuration);
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -24,4 +36,10 @@ app.MapControllerRoute(
 
 app.MapFallbackToFile("index.html");
 
+var provider = builder.Services.BuildServiceProvider();
+Register.Migrate(provider);
+
+
+
 app.Run();
+

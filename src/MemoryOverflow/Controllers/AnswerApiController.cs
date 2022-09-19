@@ -10,35 +10,35 @@ namespace MemoryOverflow.Controllers
     {
 
         [HttpPost]
-        [Route("post/{postId:string}/answer")]
+        [Route("post/{postId}/answer")]
         public async Task<IActionResult> CreateAnswerAsync(Guid postId, Answer answer, CancellationToken token)
         {
             return Ok();
         }
 
         [HttpDelete]
-        [Route("post/{postId:string}/answer/{answerId:string}")]
+        [Route("post/{postId}/answer/{answerId}")]
         public async Task<IActionResult> CreateAnswerAsync(Guid postId, Guid answerId, CancellationToken token)
         {
             return Accepted();
         }
 
         [HttpPost]
-        [Route("post/{postId:string}/answer/{answerId:string}/comment")]
+        [Route("post/{postId}/answer/{answerId}/comment")]
         public async Task<IActionResult> CreateAnswerCommentAsync(Guid postId, Guid answerId, Comment comment, CancellationToken token)
         {
             return Accepted();
         }
 
         [HttpPost]
-        [Route("post/{postId:string}/answer/{answerId:string}/vote")]
+        [Route("post/{postId}/answer/{answerId}/vote")]
         public async Task<IActionResult> CreateAnswerCommentAsync(Guid postId, Guid answerId, MessageVote vote, CancellationToken token)
         {
             return Accepted();
         }
 
         [HttpDelete]
-        [Route("post/{postId:string}/answer/{answerId:string}/comment/{commentId:string}")]
+        [Route("post/{postId}/answer/{answerId}/comment/{commentId}")]
         public async Task<IActionResult> DeleteAnswerCommentAsync(Guid postId, Guid answerId, Guid commentId, CancellationToken token)
         {
             return Accepted();
