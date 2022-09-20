@@ -17,6 +17,7 @@ namespace MemoryOverflow.Core
             services.AddDbContext<ApplicationDbContext>(x => x.UseSqlServer(config.GetConnectionString("AppDb")));
             services.AddAutoMapper(typeof(Register));
             services.AddScoped<IPostService, PostService>();
+            services.AddScoped<IAnswerService, AnswerService>();
             
         }
 

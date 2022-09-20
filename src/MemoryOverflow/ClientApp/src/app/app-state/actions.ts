@@ -80,6 +80,24 @@ export const voteOnAnswerFailure = createAction(
 );
 // #endregion
 
+
+// #region Delete Answer
+export const deleteAnswer = createAction(
+  '[Post API] DeleteAnswer',
+  props<{ postId: string, answerId: string }>()
+);
+
+export const deleteAnswerSuccess = createAction(
+  '[Post API] DeleteAnswer Success',
+  props<{ answerId: string }>()
+);
+
+export const deleteAnswerFailure = createAction(
+  '[Post API] DeleteAnswer Failure',
+  props<{ error: string }>()
+);
+// #endregion
+
 export const upsertAnswerForPost = createAction(
   '[Post API] UpsertAnswer',
   props<{ postId: string; answer: Answer }>()

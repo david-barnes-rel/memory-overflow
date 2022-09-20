@@ -4,6 +4,8 @@ using MemoryOverflow.Data;
 using MemoryOverflow.Models;
 using Microsoft.EntityFrameworkCore;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,11 +13,22 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Configuration.AddJsonFile("appsettings.json");
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      builder =>
+                      {
+                          builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                      });
+});
+
 var services = builder.Services;
 services.AddAutoMapper(typeof(Program));
 
 Register.SetupLibrary(services, builder.Configuration);
 var app = builder.Build();
+
+
 
 
 // Configure the HTTP request pipeline.
@@ -27,6 +40,8 @@ if (!app.Environment.IsDevelopment())
 
 //app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseCors(MyAllowSpecificOrigins);
+
 app.UseRouting();
 
 

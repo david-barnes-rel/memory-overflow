@@ -16,7 +16,7 @@ namespace MemoryOverflow.Data.Models
         public Post Post { get; set; }
 
         [MaxLength(255)]
-        public string Title { get; set; }
+        public string Text { get; set; }
         public int VoteCount { get; set; }
         public DateTime CreatedDate { get; private set; } = DateTime.UtcNow;
         [ForeignKey(nameof(UserId))]

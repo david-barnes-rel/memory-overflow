@@ -1,4 +1,4 @@
-﻿using MemoryOverflow.Data.Models;
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MemoryOverflow.Data.Models;
 
 namespace MemoryOverflow.Core.Models
 {
@@ -17,6 +18,32 @@ namespace MemoryOverflow.Core.Models
         public int VoteCount { get; set; }
         public DateTime CreatedDate { get; set; }
         public User User { get; set; }
-        public ICollection<Answer> Answers { get; set; }
+        public ICollection<PostAnswer> Answers { get; set; } = new List<PostAnswer>();
+        public ICollection<PostComment> Comments { get; set; } = new List<PostComment>();
+    }
+
+    public class PostComment
+    {
+        public Guid Id { get; set; }
+        public Guid PostId { get; set; }
+        public string Text { get; set; }
+        public DateTime CreatedDate { get; private set; } = DateTime.UtcNow;
+        public User? User { get; set; }
+    }
+
+    public class PostAnswer
+    {
+        public Guid Id { get; set; }
+        public string Text { get; set; }
+        public int VoteCount { get; set; }
+        public DateTime CreatedDate { get; private set; } = DateTime.UtcNow;
+        public User? User { get; set; }
+    }
+
+    public class User
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public DateTime CreatedDate { get; private set; } = DateTime.UtcNow;
     }
 }

@@ -24,7 +24,7 @@ export const collectionResolver = createReducer(
   })),
   on(actions.loadPost, (state, _) => ({
     ...state,
-    activePost: null,
+    //activePost: null,
   })),
   on(actions.loadPostSuccess, (state, action) => ({
     ...state,
@@ -69,5 +69,12 @@ export const collectionResolver = createReducer(
         }),
       },
     };
-  })
+  }),
+  on(actions.deleteAnswerSuccess, (state, action)=>({
+      ...state,
+      activePost:{
+        ...state.activePost!,
+        answers: state.activePost?.answers.filter(x=>x.id != action.answerId) || []
+      }
+  }))
 );

@@ -13,7 +13,7 @@ export class AppEffects {
     private actions$: Actions,
     private postService: PostService,
     private router: Router
-  ) {}
+  ) { }
 
   loadAllPosts$ = createEffect(() =>
     this.actions$.pipe(
@@ -31,6 +31,7 @@ export class AppEffects {
   loadPost$ = createEffect(() =>
     this.actions$.pipe(
       ofType(actions.loadPost),
+      tap(p => this._logger.log('load post', p.id)),
       switchMap((action) =>
         this.postService.loadPost(action.id).pipe(
           tap((t) => this._logger.log('Load Post Success', t.id)),
@@ -139,4 +140,16 @@ export class AppEffects {
       )
     )
   );
+
+  deleteAnswer$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(actions.deleteAnswer),
+      switchMap((action) =>
+        this.postService.deleteAnswer(action.postId, action.answerId)
+          .pipe(
+            map(r => actions.deleteAnswerSuccess({ answerId: action.answerId })),
+            catchError(error => of(actions.deleteAnswerFailure({ error }))
+            ))
+      ))
+  )
 }

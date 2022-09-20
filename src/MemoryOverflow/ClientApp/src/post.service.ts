@@ -1,122 +1,44 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Answer } from './app/answer.model';
 import { Comment } from './app/comment.model';
 import { PostDetail } from './app/post-detail.model';
 import { PostSlim } from './app/post-slim.model';
+import {environment as env } from './environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PostService {
-  constructor() {}
+  constructor(private client: HttpClient) {}
 
   public loadAllPosts(): Observable<PostSlim[]> {
-    const dPosts = [
-      {
-        id: '123',
-        title: 'first post',
-        text: 'this is my first question',
-      },
-      {
-        id: '321',
-        title: 'second post',
-        text: 'this is my 2nd question',
-      },
-    ];
-    const result: PostSlim[] = JSON.parse(
-      localStorage.getItem('posts') || '[]'
-    );
-    return of([...dPosts, ...result]);
+    return this.client.get<PostSlim[]>(`${env.url}/api/post`);
   }
 
   public loadPost(id: string): Observable<PostDetail> {
-    return of({
-      id: '123',
-      title: 'first post',
-      text: 'this is my first question',
-      answers: [
-        {
-          text: 'some answer',
-          id: 'a-3215',
-          comments: [
-            {
-              id: 'c-3123',
-              message: 'hello world 1',
-              user: {
-                id: 'u-234',
-                name: 'test_user',
-              },
-            },
-            {
-              id: 'c-3123',
-              message: 'hello world 2',
-              user: {
-                id: 'u-234',
-                name: 'test_user',
-              },
-            },
-          ],
-        },
-        {
-          text: 'some other answer',
-          id: 'a-3215',
-          comments: [
-            {
-              id: 'c-3123',
-              message: 'hello world 1',
-              user: {
-                id: 'u-234',
-                name: 'test_user',
-              },
-            },
-            {
-              id: 'c-3123',
-              message: 'hello world 2',
-              user: {
-                id: 'u-234',
-                name: 'test_user',
-              },
-            },
-          ],
-        },
-      ],
-      comments: [
-        {
-          id: 'c-3123',
-          message: 'hello world 1',
-          user: {
-            id: 'u-234',
-            name: 'test_user',
-          },
-        },
-        {
-          id: 'c-3123',
-          message: 'hello world 2',
-          user: {
-            id: 'u-234',
-            name: 'test_user',
-          },
-        },
-      ],
-    });
+    return this.client.get<PostDetail>(`${env.url}/api/post/${id}`);
   }
 
   public upsertPost(post: PostSlim): Observable<PostSlim> {
-    const result: PostSlim[] = JSON.parse(
-      localStorage.getItem('posts') || '[]'
-    );
-    const cPost = {
-      ...post,
-      id: 'p-123',
-    };
-    result.push(cPost);
-    localStorage.setItem('posts', JSON.stringify(result));
-    return of(cPost);
+    const p = {
+      ...post
+    } as Partial<PostSlim>;
+    delete p.id;
+    return this.client.post<PostSlim>(`${env.url}/api/post`, p);
   }
 
   public upsertAnswer(postId: string, answer: Answer): Observable<Answer> {
-    return of(answer);
+    const p = {
+      ...answer
+    } as Partial<Answer>;
+    delete p.id;
+    return this.client.post<Answer>(`${env.url}/api/post/${postId}/answer`, p);
+  }
+
+  public deleteAnswer(postId: string,answerId: string): Observable<void> {
+    return this.client.delete<void>(`${env.url}/api/post/${postId}/answer/${answerId}`);
   }
 
   public voteOnPost(postId: string, number: number): Observable<void> {

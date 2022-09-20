@@ -6,7 +6,7 @@ namespace MemoryOverflow.Models
     {
         public Guid? Id { get; set; }
         [Required]
-        public string Question { get; set; }
+        public string Text { get; set; }
         [Required]
         public string Title { get; set; }
     }

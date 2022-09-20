@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { tap } from 'rxjs';
-import { createCommentForAnswer, createCommentForPost, upsertAnswerForPost } from '../app-state/actions';
+import { createCommentForAnswer, createCommentForPost, deleteAnswer, upsertAnswerForPost } from '../app-state/actions';
 import {
   getActivePost,
   getActivePostAnswerCount,
@@ -54,6 +54,8 @@ export class PostDetailComponent implements OnInit {
   }
   createCommentForPost(id: string, comment: Comment): void {
     this.store.dispatch(createCommentForPost({postId: id, comment: comment }));
-
+  }
+  deleteAnswer(postId: string, answerId: string) : void{
+   this.store.dispatch(deleteAnswer({postId, answerId}));
   }
 }

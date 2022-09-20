@@ -27,9 +27,12 @@ namespace MemoryOverflow.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreatePostAsync(SlimPost post,CancellationToken token)
+        public async Task<IActionResult> CreatePostAsync(SlimPost post, CancellationToken token)
         {
-            return Ok();
+            var domainPost = _mapper.Map<Core.Models.Post>(post);
+            var result = await _postService.CreateAsync(domainPost, token);
+            post.Id = result.Id;
+            return Ok(post);
         }
 
         [HttpPost]
@@ -43,7 +46,9 @@ namespace MemoryOverflow.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetPostDetailAsync(Guid id, CancellationToken token)
         {
-            return Ok();
+            var domainPost = await _postService.GetPostAsync(id, token);
+            var postModel = _mapper.Map<Models.PostDetal>(domainPost);
+            return Ok(postModel);
         }
 
         [HttpPatch]

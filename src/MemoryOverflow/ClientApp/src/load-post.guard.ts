@@ -13,7 +13,7 @@ export class LoadPostGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    this.store.dispatch(loadPost(route.params['id']));
+    this.store.dispatch(loadPost({id:route.params['id']}));
     return true;
   }
   

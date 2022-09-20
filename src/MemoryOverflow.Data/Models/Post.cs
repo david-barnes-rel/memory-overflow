@@ -22,7 +22,8 @@ namespace MemoryOverflow.Data.Models
         public DateTime CreatedDate { get; private set; } = DateTime.UtcNow;
         public Guid UserId { get; set; }
         public User? User { get; set; }
-        [ForeignKey(nameof(Answer.PostId))]
         public virtual ICollection<Answer> Answers { get; set; }
+
+        public virtual ICollection<PostComment> Comments { get; set; }
     }
 }

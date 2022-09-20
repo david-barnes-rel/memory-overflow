@@ -1,4 +1,4 @@
-<ng-container *ngrxLet="post$ as post">
+<ng-container *ngIf="post$ | async as post; else loading">
   <button mat-raised-button color="primary" [routerLink]="['/posts/', (post$ | async)!.id, 'manage']">
     Edit Post
   </button>
@@ -28,6 +28,7 @@
   <section *ngFor="let a of post!.answers">
     <mat-card>
       <div class="question">
+        <button (click)="deleteAnswer(post!.id, a!.id)">Delete</button>
         <div class="question-body">
           <div class="question-votes">
             <mat-icon (click)="upvote(a!.id)" fontIcon="arrow_upward"> arrow_upward</mat-icon>
@@ -57,7 +58,8 @@
       </p>
     </form>
   </section>
-
-
-
 </ng-container>
+
+<ng-template #loading>
+  Loading...
+</ng-template>
