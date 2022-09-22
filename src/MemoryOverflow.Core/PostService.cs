@@ -32,6 +32,28 @@ namespace MemoryOverflow.Core
             return post;
         }
 
+        public async Task DeletePostAsync(Guid postId, CancellationToken token = default)
+        {
+            _dbContext.Posts.Remove(new Data.Models.Post
+            {
+                Id = postId
+            });
+            await _dbContext.SaveChangesAsync(token);
+        }
+
+        public async Task DownVoteAsync(Guid postId, CancellationToken token = default)
+        {
+            var vote = await _dbContext.Posts.Where(x => x.Id == postId).Select(x => x.VoteCount).SingleOrDefaultAsync(token);
+            var post = new Data.Models.Post
+            {
+                Id = postId,
+                VoteCount = vote - 1
+            };
+            _dbContext.Posts.Attach(post);
+            _dbContext.Entry(post).Property(x => x.VoteCount).IsModified = true;
+            await _dbContext.SaveChangesAsync(token);
+        }
+
         public async Task<IReadOnlyList<Post>> GetAllPostsAsync(CancellationToken token = default)
         {
             var posts = await _dbContext.Posts.ToListAsync(token);
@@ -50,6 +72,19 @@ namespace MemoryOverflow.Core
             var domainPost = _mapper.Map<Core.Models.Post>(post);
             return domainPost;
 
+        }
+
+        public async Task UpVoteAsync(Guid postId, CancellationToken token = default)
+        {
+            var vote = await _dbContext.Posts.Where(x => x.Id == postId).Select(x => x.VoteCount).SingleOrDefaultAsync(token);
+            var post = new Data.Models.Post
+            {
+                Id = postId,
+                VoteCount = vote + 1
+            };
+            _dbContext.Posts.Attach(post);
+            _dbContext.Entry(post).Property(x => x.VoteCount).IsModified = true;
+            await _dbContext.SaveChangesAsync(token);
         }
     }
 }

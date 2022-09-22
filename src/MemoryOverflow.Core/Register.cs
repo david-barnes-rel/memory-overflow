@@ -18,7 +18,8 @@ namespace MemoryOverflow.Core
             services.AddAutoMapper(typeof(Register));
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IAnswerService, AnswerService>();
-            
+            services.AddScoped<IPostCommentService, PostCommentService>();
+
         }
 
         public static void Migrate(ServiceProvider provider)

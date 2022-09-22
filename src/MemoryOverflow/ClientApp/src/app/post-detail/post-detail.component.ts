@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { tap } from 'rxjs';
-import { createCommentForAnswer, createCommentForPost, deleteAnswer, upsertAnswerForPost } from '../app-state/actions';
+import { createCommentForAnswer, createCommentForPost, deleteAnswer, upsertAnswerForPost, voteOnPost } from '../app-state/actions';
 import {
   getActivePost,
   getActivePostAnswerCount,
@@ -27,6 +27,16 @@ export class PostDetailComponent implements OnInit {
   constructor(private store: Store) {}
 
   ngOnInit(): void {}
+
+
+  
+
+  upvotePost(id: string) {
+    this.store.dispatch(voteOnPost({postId: id, value: 1}))
+  }
+  downvotePost(id: string) {
+    this.store.dispatch(voteOnPost({postId: id, value: -1}))
+  }
 
   upvote(id: string) {
     this._logger.log('upvote', id);

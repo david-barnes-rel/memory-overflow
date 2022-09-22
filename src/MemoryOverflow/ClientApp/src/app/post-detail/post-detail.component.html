@@ -10,9 +10,9 @@
 
       <div class="question-body">
         <div class="question-votes">
-          <mat-icon (click)="upvote(post!.id)" fontIcon="arrow_upward"> arrow_upward</mat-icon>
-          <div>32</div>
-          <mat-icon (click)="downvote(post!.id)">arrow_downward</mat-icon>
+          <mat-icon (click)="upvotePost(post!.id)" fontIcon="arrow_upward"> arrow_upward</mat-icon>
+          <div>{{post!.voteCount}}</div>
+          <mat-icon (click)="downvotePost(post!.id)">arrow_downward</mat-icon>
         </div>
         <div class="question-area">
           {{post!.text}}

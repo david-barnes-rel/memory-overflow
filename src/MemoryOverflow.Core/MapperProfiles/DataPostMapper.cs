@@ -1,9 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MemoryOverflow.Core.MapperProfiles
 {
@@ -16,6 +11,7 @@ namespace MemoryOverflow.Core.MapperProfiles
 
             
             CreateMap<Data.Models.PostComment, Core.Models.PostComment>();
+            CreateMap<Core.Models.PostComment, Data.Models.PostComment>();
             CreateMap<Data.Models.Answer, Core.Models.PostAnswer>();
             CreateMap<Core.Models.PostAnswer, Data.Models.Answer>();
 

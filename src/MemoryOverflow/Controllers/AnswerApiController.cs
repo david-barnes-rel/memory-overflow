@@ -45,7 +45,7 @@ namespace MemoryOverflow.Controllers
 
         [HttpPost]
         [Route("post/{postId}/answer/{answerId}/vote")]
-        public async Task<IActionResult> CreateAnswerCommentAsync(Guid postId, Guid answerId, MessageVote vote, CancellationToken token)
+        public async Task<IActionResult> VoteOnAnswerAsync(Guid postId, Guid answerId, MessageVote vote, CancellationToken token)
         {
             return Accepted();
         }

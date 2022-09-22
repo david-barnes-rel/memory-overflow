@@ -42,7 +42,8 @@ export class PostService {
   }
 
   public voteOnPost(postId: string, number: number): Observable<void> {
-    return of();
+    return this.client.post<void>(`${env.url}/api/post/${postId}/vote`, {vote: number});
+    
   }
 
   public voteOnAnswer(answerId: string, number: number): Observable<void> {
@@ -54,12 +55,13 @@ export class PostService {
     comment: Comment
   ): Observable<Comment> {
     return of(comment);
+    //return this.client.post<Comment>(`${env.url}/api/post/${postId}/comment`, comment);
   }
 
   public createCommentForPost(
-    answerId: string,
+    postId: string,
     comment: Comment
   ): Observable<Comment> {
-    return of(comment);
+    return this.client.post<Comment>(`${env.url}/api/post/${postId}/comment`, comment);
   }
 }

@@ -39,6 +39,14 @@ namespace MemoryOverflow.Controllers
         [Route("{id}/vote")]
         public async Task<IActionResult> VoteOnPostAsync(Guid id, MessageVote vote, CancellationToken token)
         {
+            if(vote.Vote > 0)
+            {
+                await _postService.UpVoteAsync(id, token);
+            }else if(vote.Vote < 0)
+            {
+                await _postService.DownVoteAsync(id, token);
+            }
+
             return Accepted();
         }
 
@@ -62,7 +70,8 @@ namespace MemoryOverflow.Controllers
         [Route("{id}")]
         public async Task<IActionResult> DeletePostAsync(Guid id, CancellationToken token)
         {
-            return Ok();
+            await _postService.DeletePostAsync(id, token);
+            return Accepted();
         }
 
     }

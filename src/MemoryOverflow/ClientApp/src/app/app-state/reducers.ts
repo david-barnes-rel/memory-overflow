@@ -48,6 +48,13 @@ export const collectionResolver = createReducer(
       comments: [...(state.activePost?.comments || []), action.comment],
     },
   })),
+  on(actions.voteOnPostSuccess, (state, action) => ({
+    ...state,
+    activePost: {
+      ...state.activePost!,
+      voteCount: (state.activePost?.voteCount || 0) + (action.value > 0 ? 1: -1)
+    }
+  })),
   on(actions.createCommentForAnswerSuccess, (state, action) => {
     const currentAnswers = [...(state.activePost?.answers || [])];
     return {
@@ -70,11 +77,11 @@ export const collectionResolver = createReducer(
       },
     };
   }),
-  on(actions.deleteAnswerSuccess, (state, action)=>({
-      ...state,
-      activePost:{
-        ...state.activePost!,
-        answers: state.activePost?.answers.filter(x=>x.id != action.answerId) || []
-      }
+  on(actions.deleteAnswerSuccess, (state, action) => ({
+    ...state,
+    activePost: {
+      ...state.activePost!,
+      answers: state.activePost?.answers.filter(x => x.id != action.answerId) || []
+    }
   }))
 );
