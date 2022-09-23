@@ -2,11 +2,6 @@
 using MemoryOverflow.Core.Models;
 using MemoryOverflow.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MemoryOverflow.Core
 {
@@ -34,6 +29,12 @@ namespace MemoryOverflow.Core
 
         public async Task DeletePostAsync(Guid postId, CancellationToken token = default)
         {
+            var commentIds = await _dbContext.PostComments.Where(x => x.PostId == postId).Select(x => x.Id).ToListAsync(token);
+            _dbContext.PostComments.RemoveRange(commentIds.Select(x => new Data.Models.PostComment
+            {
+                Id = x
+            }).ToList());
+            await _dbContext.SaveChangesAsync(token);
             _dbContext.Posts.Remove(new Data.Models.Post
             {
                 Id = postId
@@ -66,6 +67,7 @@ namespace MemoryOverflow.Core
             var post = await _dbContext.Posts
                 .Include(x => x.User)
                 .Include(x => x.Answers)
+                .ThenInclude(x => x.Comments)
                 .Include(x => x.Comments)
                 .AsNoTracking()
                 .SingleOrDefaultAsync(x => x.Id == postId, token);

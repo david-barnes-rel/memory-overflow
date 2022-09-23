@@ -31,18 +31,16 @@
         <button (click)="deleteAnswer(post!.id, a!.id)">Delete</button>
         <div class="question-body">
           <div class="question-votes">
-            <mat-icon (click)="upvote(a!.id)" fontIcon="arrow_upward"> arrow_upward</mat-icon>
-            <div>32</div>
-            <mat-icon (click)="downvote(a!.id)">arrow_downward</mat-icon>
+            <mat-icon (click)="upvoteAnswer(post!.id, a!.id)" fontIcon="arrow_upward"> arrow_upward</mat-icon>
+            <div>{{a!.voteCount}}</div>
+            <mat-icon (click)="downvoteAnswer(post!.id, a!.id)">arrow_downward</mat-icon>
           </div>
           <div class="question-area">
             {{a.text}}
           </div>
         </div>
         Comments
-  <comment-list [comments]="a.comments" (create)="createCommentForAnswer(a.id, $event)"></comment-list>
-
-        
+        <comment-list [comments]="a.comments" (create)="createCommentForAnswer(a.id, post!.id, $event)"></comment-list>
       </div>
     </mat-card>
   </section>

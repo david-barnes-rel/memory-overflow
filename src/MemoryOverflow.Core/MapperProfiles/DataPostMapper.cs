@@ -17,6 +17,9 @@ namespace MemoryOverflow.Core.MapperProfiles
 
 
             CreateMap<Data.Models.User, Core.Models.User>();
+
+            CreateMap<Data.Models.AnswerComment, Core.Models.AnswerComment>();
+            CreateMap<Core.Models.AnswerComment, Data.Models.AnswerComment>();
         }
     }
 }

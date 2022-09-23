@@ -66,12 +66,12 @@ export const voteOnPostFailure = createAction(
 // #region Vote On Answer
 export const voteOnAnswer = createAction(
   '[Post API] VoteOnAnswer',
-  props<{ answerId: string; value: number }>()
+  props<{ postId: string, answerId: string; value: number }>()
 );
 
 export const voteOnAnswerSuccess = createAction(
   '[Post API] VoteOnAnswer Success',
-  props<{ value: number }>()
+  props<{ answerid: string, value: number }>()
 );
 
 export const voteOnAnswerFailure = createAction(
@@ -129,7 +129,7 @@ export const createCommentForPostFailure = createAction(
 
 export const createCommentForAnswer = createAction(
   '[Post API] Create Comment for Answer',
-  props<{ answerId: string; comment: Comment }>()
+  props<{ postId: string, answerId: string; comment: Comment }>()
 );
 
 export const createCommentForAnswerSuccess = createAction(

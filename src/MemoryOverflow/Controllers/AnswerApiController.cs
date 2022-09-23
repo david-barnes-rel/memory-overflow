@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MemoryOverflow.Core;
 using MemoryOverflow.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MemoryOverflow.Controllers
@@ -12,11 +11,13 @@ namespace MemoryOverflow.Controllers
     {
         private readonly IAnswerService _answerService;
         private readonly IMapper _mapper;
+        private readonly IAnswerCommentService _commentService;
 
-        public AnswerApiController(IAnswerService answerService, IMapper mapper)
+        public AnswerApiController(IAnswerService answerService, IAnswerCommentService commentService, IMapper mapper)
         {
             _answerService = answerService;
             _mapper = mapper;
+            _commentService = commentService;
         }
 
         [HttpPost]
@@ -40,13 +41,25 @@ namespace MemoryOverflow.Controllers
         [Route("post/{postId}/answer/{answerId}/comment")]
         public async Task<IActionResult> CreateAnswerCommentAsync(Guid postId, Guid answerId, Comment comment, CancellationToken token)
         {
-            return Accepted();
+            var domainModel = _mapper.Map<Core.Models.AnswerComment>(comment);
+            domainModel.AnswerId = answerId;
+            var result = await _commentService.CreateCommentAsync(domainModel, token);
+            comment.Id = result.Id;
+            return Created("", comment);
         }
 
         [HttpPost]
         [Route("post/{postId}/answer/{answerId}/vote")]
         public async Task<IActionResult> VoteOnAnswerAsync(Guid postId, Guid answerId, MessageVote vote, CancellationToken token)
         {
+            if (vote.Vote > 0)
+            {
+                await _answerService.UpVoteAsync(answerId, token);
+            }
+            else if (vote.Vote < 0)
+            {
+                await _answerService.DownVoteAsync(answerId, token);
+            }
             return Accepted();
         }
 
@@ -54,7 +67,7 @@ namespace MemoryOverflow.Controllers
         [Route("post/{postId}/answer/{answerId}/comment/{commentId}")]
         public async Task<IActionResult> DeleteAnswerCommentAsync(Guid postId, Guid answerId, Guid commentId, CancellationToken token)
         {
-            
+            await _commentService.DeleteCommentAsync(answerId, commentId, token);
             return Accepted();
         }
     }

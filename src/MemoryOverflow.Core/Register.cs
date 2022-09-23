@@ -19,6 +19,7 @@ namespace MemoryOverflow.Core
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IAnswerService, AnswerService>();
             services.AddScoped<IPostCommentService, PostCommentService>();
+            services.AddScoped<IAnswerCommentService, AnswerCommentService>();
 
         }
 

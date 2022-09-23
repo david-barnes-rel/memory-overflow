@@ -91,8 +91,8 @@ export class AppEffects {
     this.actions$.pipe(
       ofType(actions.voteOnAnswer),
       switchMap((action) =>
-        this.postService.voteOnAnswer(action.answerId, action.value).pipe(
-          map((r) => actions.voteOnAnswerSuccess({ value: action.value })),
+        this.postService.voteOnAnswer(action.postId, action.answerId, action.value).pipe(
+          map((r) => actions.voteOnAnswerSuccess({ answerid: action.answerId, value: action.value })),
           catchError((error) => of(actions.voteOnAnswerFailure({ error })))
         )
       )
@@ -125,7 +125,7 @@ export class AppEffects {
       ofType(actions.createCommentForAnswer),
       switchMap((action) =>
         this.postService
-          .createCommentForAnswer(action.answerId, action.comment)
+          .createCommentForAnswer( action.postId, action.answerId, action.comment)
           .pipe(
             map((r) =>
               actions.createCommentForAnswerSuccess({

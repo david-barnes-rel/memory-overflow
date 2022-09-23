@@ -31,6 +31,16 @@ namespace MemoryOverflow.Core.Models
         public User? User { get; set; }
     }
 
+    public class AnswerComment
+    {
+        public Guid Id { get; set; }
+        public Guid AnswerId { get; set; }
+        public string Text { get; set; }
+        public DateTime CreatedDate { get; private set; } = DateTime.UtcNow;
+        public User? User { get; set; }
+    }
+
+
     public class PostAnswer
     {
         public Guid Id { get; set; }
@@ -38,6 +48,7 @@ namespace MemoryOverflow.Core.Models
         public int VoteCount { get; set; }
         public DateTime CreatedDate { get; private set; } = DateTime.UtcNow;
         public User? User { get; set; }
+        public ICollection<AnswerComment> Comments { get; set; } = new List<AnswerComment>();
     }
 
     public class User

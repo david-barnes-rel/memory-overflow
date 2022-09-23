@@ -52,9 +52,28 @@ export const collectionResolver = createReducer(
     ...state,
     activePost: {
       ...state.activePost!,
-      voteCount: (state.activePost?.voteCount || 0) + (action.value > 0 ? 1: -1)
+      voteCount: (state.activePost?.voteCount || 0) + (action.value > 0 ? 1 : -1)
     }
   })),
+  on(actions.voteOnAnswerSuccess, (state, action) => {
+    const currentAnswers = [...(state.activePost?.answers || [])];
+    return {
+      ...state,
+      activePost: {
+        ...state.activePost!,
+        answers:currentAnswers.map((a) => {
+          if (a.id == action.answerid) {
+            return {
+              ...a,
+              voteCount: (a?.voteCount || 0) + (action.value > 0 ? 1: -1)
+            }
+          } else {
+            return a;
+          }
+        })
+      }
+    }
+  }),
   on(actions.createCommentForAnswerSuccess, (state, action) => {
     const currentAnswers = [...(state.activePost?.answers || [])];
     return {

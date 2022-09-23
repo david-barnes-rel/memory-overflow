@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { tap } from 'rxjs';
-import { createCommentForAnswer, createCommentForPost, deleteAnswer, upsertAnswerForPost, voteOnPost } from '../app-state/actions';
+import { createCommentForAnswer, createCommentForPost, deleteAnswer, upsertAnswerForPost, voteOnAnswer, voteOnPost } from '../app-state/actions';
 import {
   getActivePost,
   getActivePostAnswerCount,
@@ -28,9 +28,6 @@ export class PostDetailComponent implements OnInit {
 
   ngOnInit(): void {}
 
-
-  
-
   upvotePost(id: string) {
     this.store.dispatch(voteOnPost({postId: id, value: 1}))
   }
@@ -38,11 +35,12 @@ export class PostDetailComponent implements OnInit {
     this.store.dispatch(voteOnPost({postId: id, value: -1}))
   }
 
-  upvote(id: string) {
+  upvoteAnswer(postId: string, id: string) {
+    this.store.dispatch(voteOnAnswer({postId: postId, answerId: id, value: 1}));
     this._logger.log('upvote', id);
   }
-  downvote(id: string) {
-    this._logger.log('downvote', id);
+  downvoteAnswer(postId: string, id: string) {
+    this.store.dispatch(voteOnAnswer({postId: postId, answerId: id, value: -1}));
   }
   createAnswer(postId: string): void {
     this.store.dispatch(
@@ -52,6 +50,7 @@ export class PostDetailComponent implements OnInit {
           id: '',
           text: this.answerForm.value.answer || '',
           comments: [],
+          voteCount: 0
         },
       })
     );
@@ -59,8 +58,8 @@ export class PostDetailComponent implements OnInit {
     this.answerForm.reset();
   }
 
-  createCommentForAnswer(id: string, comment: Comment): void {
-    this.store.dispatch(createCommentForAnswer({answerId: id, comment: comment }));
+  createCommentForAnswer(id: string, postId: string, comment: Comment): void {
+    this.store.dispatch(createCommentForAnswer({ postId: postId, answerId: id, comment: comment }));
   }
   createCommentForPost(id: string, comment: Comment): void {
     this.store.dispatch(createCommentForPost({postId: id, comment: comment }));
