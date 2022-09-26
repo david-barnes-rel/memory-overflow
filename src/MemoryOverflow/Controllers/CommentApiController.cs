@@ -25,6 +25,7 @@ namespace MemoryOverflow.Controllers
             var domainModel = _mapper.Map<Core.Models.PostComment>(comment);
             domainModel.PostId = postId;
             await _commentService.CreateCommentAsync(domainModel, token);
+            comment.Id = domainModel.Id;
             return Created("", comment);
         }
 

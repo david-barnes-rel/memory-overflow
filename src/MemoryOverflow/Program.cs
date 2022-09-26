@@ -22,6 +22,8 @@ builder.Services.AddCors(options =>
                       });
 });
 
+
+
 var services = builder.Services;
 services.AddAutoMapper(typeof(Program));
 

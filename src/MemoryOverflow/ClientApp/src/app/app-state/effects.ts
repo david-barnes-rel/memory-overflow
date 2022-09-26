@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { switchMap, catchError, map, of, tap } from 'rxjs';
-import { PostService } from '../../post.service';
+import { PostService, TelemetryService } from '../../post.service';
 import { Logger } from '../logger';
 
 import * as actions from './actions';
@@ -12,6 +12,7 @@ export class AppEffects {
   constructor(
     private actions$: Actions,
     private postService: PostService,
+    private telemService: TelemetryService,
     private router: Router
   ) { }
 
@@ -47,6 +48,7 @@ export class AppEffects {
       ofType(actions.upsertPost),
       switchMap((action) =>
         this.postService.upsertPost(action.post).pipe(
+          tap(r=>this.telemService.track({type: 'create_post', payload: { postId: r.id, questionLength: action.post.text.length, titleLength: action.post.title.length }})),
           map((result) => actions.upsertPostSuccess({ post: result })),
           catchError((error) => of(actions.upsertPostError({ error })))
         )
@@ -69,6 +71,7 @@ export class AppEffects {
       switchMap((action) =>
         this.postService.upsertAnswer(action.postId, action.answer).pipe(
           map((r) => actions.upsertAnswerForPostSuccess({ answer: r })),
+          tap(r=>this.telemService.track({type: 'create_answer', payload: { answerId: r.answer.id, answerLength: action.answer.text.length }})),
           catchError((error) => of(actions.upsertAnswerForPostError({ error })))
         )
       )
@@ -106,6 +109,7 @@ export class AppEffects {
         this.postService
           .createCommentForPost(action.postId, action.comment)
           .pipe(
+            tap(r=>this.telemService.track({type: 'create_comment', payload: {commentId: r.id, commentLength: action.comment.message }})),
             map((r) =>
               actions.createCommentForPostSuccess({
                 postId: action.postId,
@@ -127,6 +131,7 @@ export class AppEffects {
         this.postService
           .createCommentForAnswer( action.postId, action.answerId, action.comment)
           .pipe(
+            tap(r=>this.telemService.track({type: 'create_comment', payload: { commentId: r.id, commentLength: action.comment.message }})),
             map((r) =>
               actions.createCommentForAnswerSuccess({
                 answerId: action.answerId,

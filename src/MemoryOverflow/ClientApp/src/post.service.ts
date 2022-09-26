@@ -64,3 +64,16 @@ export class PostService {
     return this.client.post<Comment>(`${env.url}/api/post/${postId}/comment`, comment);
   }
 }
+
+
+@Injectable({
+  providedIn: 'root',
+})
+export class TelemetryService {
+  constructor(private client: HttpClient) {}
+
+  public track(obj: {type: string, payload: any}) {
+    return this.client.post<void>(`${env.url}/api/telemetry/track`, {type: obj.type, payload: JSON.stringify(obj.payload)}).subscribe();
+  }
+
+}

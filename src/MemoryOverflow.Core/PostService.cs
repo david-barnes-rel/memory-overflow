@@ -44,6 +44,7 @@ namespace MemoryOverflow.Core
 
         public async Task DownVoteAsync(Guid postId, CancellationToken token = default)
         {
+            
             var vote = await _dbContext.Posts.Where(x => x.Id == postId).Select(x => x.VoteCount).SingleOrDefaultAsync(token);
             var post = new Data.Models.Post
             {

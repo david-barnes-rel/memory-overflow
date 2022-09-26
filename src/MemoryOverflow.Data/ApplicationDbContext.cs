@@ -1,4 +1,5 @@
 ﻿using MemoryOverflow.Data.Models;
+using MemoryOverflow.Data.Models.Telemetry;
 using Microsoft.EntityFrameworkCore;
 
 namespace MemoryOverflow.Data
@@ -16,6 +17,9 @@ namespace MemoryOverflow.Data
         public DbSet<PostComment> PostComments { get; set; }
         public DbSet<AnswerComment> AnswerComments { get; set; }
         public DbSet<User> Users{ get; set; }
+        public DbSet<PostTelemetry> PostTelemetry { get; set; }
+        public DbSet<AnswerTelemetry> AnswerTelemetry { get; set; }
+        public DbSet<CommentTelemetry> CommentTelemetry { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

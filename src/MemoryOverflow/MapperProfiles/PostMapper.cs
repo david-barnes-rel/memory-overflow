@@ -23,6 +23,7 @@ namespace MemoryOverflow.MapperProfiles
             CreateMap<Core.Models.AnswerComment, Models.Comment>().ForMember(x => x.Message, opt => opt.MapFrom(x => x.Text));
             CreateMap<Models.Comment, Core.Models.AnswerComment>().ForMember(x => x.Text, opt => opt.MapFrom(x => x.Message));
             CreateMap<Core.Models.User, Models.User>();
+            CreateMap<Models.TelemetryEvent, Core.Models.TelemetryEvent>();
         }
     }
 }

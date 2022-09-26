@@ -1,4 +1,8 @@
-﻿using MemoryOverflow.Data;
+﻿using MemoryOverflow.Core.Models;
+using MemoryOverflow.Core.Pipeline;
+using MemoryOverflow.Core.Pipeline.Filters;
+using MemoryOverflow.Core.Pipeline.Transformers;
+using MemoryOverflow.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,7 +24,28 @@ namespace MemoryOverflow.Core
             services.AddScoped<IAnswerService, AnswerService>();
             services.AddScoped<IPostCommentService, PostCommentService>();
             services.AddScoped<IAnswerCommentService, AnswerCommentService>();
+            services.AddScoped<PostFilter>();
+            services.AddScoped<PostTransformer>();
+            services.AddScoped<AnswerFilter>();
+            services.AddScoped<AnswerTransformer>();
+            services.AddScoped<CommentFilter>();
+            services.AddScoped<CommentTransformer>();
+            services.AddScoped<IPipelineBuilder<TelemetryEvent>>((sp) =>
+            {
+                var pipeline = new PipelineBuilder();
+                var postFilter = sp.GetRequiredService<PostFilter>();
+                postFilter.Add(sp.GetRequiredService<PostTransformer>());
+                pipeline.Add(postFilter);
 
+                var answerFilter = sp.GetRequiredService<AnswerFilter>();
+                answerFilter.Add(sp.GetRequiredService<AnswerTransformer>());
+                pipeline.Add(answerFilter);
+
+                var commentFilter = sp.GetRequiredService<CommentFilter>();
+                commentFilter.Add(sp.GetRequiredService<CommentTransformer>());
+                pipeline.Add(commentFilter);
+                return pipeline;
+            });
         }
 
         public static void Migrate(ServiceProvider provider)
